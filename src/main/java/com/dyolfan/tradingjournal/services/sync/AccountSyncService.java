@@ -27,6 +27,11 @@ public class AccountSyncService {
         }).orElseThrow();
     }
 
+    public Account syncAccount(String id) {
+        syncStrategies(id);
+        return syncTrades(id);
+    }
+
     public Account syncTrades(String id) {
         Trades storedTrades = tradeSearchService.findTradesByAccountId(id);
         return accountRepository.findById(id).map(storedAccount -> {

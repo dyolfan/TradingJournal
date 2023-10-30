@@ -57,13 +57,19 @@ public class TradeService {
     }
 
     public boolean deleteTrade(String id) {
+        return deleteTrade(id, true);
+    }
+
+    public boolean deleteTrade(String id, boolean syncAccount) {
         boolean isDeleted = false;
 
         try {
-            String accountId = tradeRepository.findById(id).orElseThrow().getAccountId();
+            Trade trade = tradeRepository.findById(id).orElseThrow();
             tradeRepository.deleteById(id);
             isDeleted = true;
-            accountSyncService.syncTrades(accountId);
+            if (syncAccount) {
+                accountSyncService.syncTrades(trade.getAccountId());
+            }
         } catch (Exception exception) {
             // TODO: add logging
         }

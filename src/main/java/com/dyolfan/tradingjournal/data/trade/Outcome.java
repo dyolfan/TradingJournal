@@ -2,12 +2,15 @@ package com.dyolfan.tradingjournal.data.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Transient;
 
 import java.math.BigDecimal;
 
 @Getter
+@Setter
+@NoArgsConstructor
 public class Outcome {
     private Boolean isProfit;
     private BigDecimal pnl;
@@ -23,8 +26,5 @@ public class Outcome {
         this.pnl = pnl;
         this.status = status;
         this.notes = notes;
-    }
-
-    public Outcome() {
     }
 }

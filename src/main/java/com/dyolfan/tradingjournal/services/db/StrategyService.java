@@ -6,9 +6,6 @@ import com.dyolfan.tradingjournal.repositories.StrategyRepository;
 import com.dyolfan.tradingjournal.services.sync.AccountSyncService;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-
 @Service
 public class StrategyService {
     private final StrategyRepository strategyRepository;
@@ -22,7 +19,6 @@ public class StrategyService {
     }
 
     public Strategy saveStrategy(Strategy strategy) {
-        boolean isNew = strategy.getId() == null;
         Strategy storedStrategy = strategyRepository.save(strategy);
 
         accountSyncService.syncNewStrategies(storedStrategy.getAccountId(), new Strategies(storedStrategy));
@@ -31,15 +27,7 @@ public class StrategyService {
     }
 
     public Strategy getStrategyById(String id) {
-        return findStrategyById(id).orElseThrow();
-    }
-
-    public Optional<Strategy> findStrategyById(String id) {
-        return strategyRepository.findById(id);
-    }
-
-    public Strategies findAllStrategyByIds(List<String> ids) {
-        return new Strategies(strategyRepository.findAllById(ids));
+        return strategySearchService.findStrategyById(id).orElseThrow();
     }
 
     public Strategy updateStrategy(String id, Strategy strategy) {
@@ -47,19 +35,28 @@ public class StrategyService {
             storedStrategy.setDescription(strategy.getDescription());
             storedStrategy.setName(strategy.getName());
             storedStrategy.setSubtype(strategy.getSubtype());
+            storedStrategy.setSubtype(strategy.getSubtype());
             return storedStrategy;
         }).map(strategyRepository::save).orElseThrow();
     }
 
-    public boolean deleteTrade(String id) {
+    public boolean deleteStrategy(String id) {
+        return deleteStrategy(id, true);
+    }
+
+    public boolean deleteStrategy(String id, boolean syncAccount) {
         boolean isDeleted = false;
 
         try {
-            String accountId = strategyRepository.findById(id).orElseThrow().getAccountId();
+            Strategy strategy = strategyRepository.findById(id).orElseThrow();
             strategyRepository.deleteById(id);
             isDeleted = true;
-            accountSyncService.syncStrategies(accountId);
-        } catch (Exception exception) {
+            if (syncAccount) {
+                accountSyncService.syncStrategies(strategy.getAccountId());
+            }
+
+        } catch (
+                Exception exception) {
             // TODO: add logging
         }
         return isDeleted;

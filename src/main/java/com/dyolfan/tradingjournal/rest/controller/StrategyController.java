@@ -4,10 +4,12 @@ import com.dyolfan.tradingjournal.data.trade.Strategy;
 import com.dyolfan.tradingjournal.services.db.StrategyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("strategies")
+@Transactional
 public class StrategyController {
     private final StrategyService strategiesService;
 
@@ -32,6 +34,6 @@ public class StrategyController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteTrade(@PathVariable String id) {
-        return ResponseEntity.ok(strategiesService.deleteTrade(id));
+        return ResponseEntity.ok(strategiesService.deleteStrategy(id));
     }
 }

@@ -11,20 +11,22 @@ import java.util.Optional;
 public class AccountService {
     private final AccountRepository accountsRepository;
     private final StrategySearchService strategySearchService;
-    private final TradeSearchService tradeSearchService;
+    private final StrategyService strategyService;
     private final TradeService tradeService;
+    private final TradeSearchService tradeSearchService;
 
-    public AccountService(AccountRepository accountsRepository, StrategySearchService strategySearchService, TradeSearchService tradeSearchService, TradeService tradeService) {
+    public AccountService(AccountRepository accountsRepository, StrategySearchService strategySearchService, StrategyService strategyService, TradeService tradeService, TradeSearchService tradeSearchService) {
         this.accountsRepository = accountsRepository;
         this.strategySearchService = strategySearchService;
-        this.tradeSearchService = tradeSearchService;
+        this.strategyService = strategyService;
         this.tradeService = tradeService;
+        this.tradeSearchService = tradeSearchService;
     }
 
     public Account addAccount(Account account) {
         Account storedAccount = accountsRepository.save(account);
 
-        Strategies strategies = strategySearchService.findAllStrategyByIds(storedAccount.getStrategies().getIds());
+        Strategies strategies = strategySearchService.findStrategiesByAccountId(storedAccount.getId());
         storedAccount.setStrategies(strategies);
 
         return storedAccount;
@@ -42,12 +44,10 @@ public class AccountService {
         return findAccountById(id).map(storedAccount -> {
             storedAccount.setName(account.getName());
             storedAccount.setCurrency(account.getCurrency());
-            storedAccount.setTrades(account.getTrades());
-            storedAccount.setStrategies(account.getStrategies());
             return accountsRepository.save(storedAccount);
         }).map(storedAccount -> {
-            storedAccount.setStrategies(strategySearchService.findAllStrategyByIds(storedAccount.getStrategies().getIds()));
-            storedAccount.setTrades(tradeSearchService.findAllTradeByIds(storedAccount.getStrategies().getIds()));
+            storedAccount.setStrategies(strategySearchService.findStrategiesByAccountId(id));
+            storedAccount.setTrades(tradeSearchService.findTradesByAccountId(id));
             return storedAccount;
         }).orElseThrow();
     }
@@ -55,6 +55,15 @@ public class AccountService {
     public boolean deleteAccountById(String id) {
         boolean isDeleted = false;
         try {
+            accountsRepository.findById(id).orElseThrow();
+
+            tradeSearchService.findTradesByAccountId(id).forEach(trade ->
+                    tradeService.deleteTrade(trade.getId(), false)
+            );
+            strategySearchService.findStrategiesByAccountId(id).forEach(strategy ->
+                    strategyService.deleteStrategy(strategy.getId(), false)
+            );
+
             accountsRepository.deleteById(id);
             isDeleted = true;
         } catch (Exception exception) {
