@@ -3,6 +3,7 @@ package com.dyolfan.tradingjournal.data.user;
 import com.dyolfan.tradingjournal.data.trade.Currency;
 import com.dyolfan.tradingjournal.data.trade.Strategies;
 import com.dyolfan.tradingjournal.data.trade.Trades;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,7 +20,9 @@ import java.util.Objects;
 public class Account {
     @Id
     private String id;
+    @NotNull
     private String name;
+    @NotNull
     private Currency currency;
     @DBRef
     private Trades trades = new Trades();

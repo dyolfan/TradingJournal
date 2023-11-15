@@ -1,5 +1,6 @@
 package com.dyolfan.tradingjournal.data.trade;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,12 +19,17 @@ import java.util.Date;
 public class Trade {
     @Id
     private String id;
+    @org.springframework.lang.NonNull
     private Ticker ticker;
+    @NotNull
     private Date date;
+    @NotNull
     private Direction direction;
+    @NotNull
     private LotInfo lotInfo;
     @DBRef
     private Strategy strategy;
     private Outcome outcome;
+    @NotNull
     private String accountId;
 }

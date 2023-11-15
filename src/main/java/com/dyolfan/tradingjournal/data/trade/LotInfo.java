@@ -1,5 +1,6 @@
 package com.dyolfan.tradingjournal.data.trade;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,6 +13,8 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 public class LotInfo {
+    @NotNull
     private BigDecimal risk;
+    @NotNull
     private BigDecimal riskRewardRatio;
 }

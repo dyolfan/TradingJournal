@@ -2,6 +2,7 @@ package com.dyolfan.tradingjournal.rest.controller;
 
 import com.dyolfan.tradingjournal.data.trade.Strategy;
 import com.dyolfan.tradingjournal.services.db.StrategyService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +19,7 @@ public class StrategyController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Strategy> addTrade(@RequestBody Strategy strategy) {
+    public ResponseEntity<Strategy> addTrade(@Valid @RequestBody Strategy strategy) {
         return ResponseEntity.ok(strategiesService.saveStrategy(strategy));
     }
 
@@ -28,7 +29,7 @@ public class StrategyController {
     }
 
     @PutMapping("/{id}/update")
-    public ResponseEntity<Strategy> updateTrade(@PathVariable String id, @RequestBody Strategy strategy) {
+    public ResponseEntity<Strategy> updateTrade(@PathVariable String id, @Valid @RequestBody Strategy strategy) {
         return ResponseEntity.ok(strategiesService.updateStrategy(id, strategy));
     }
 

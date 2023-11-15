@@ -2,12 +2,15 @@ package com.dyolfan.tradingjournal.rest.controller;
 
 import com.dyolfan.tradingjournal.data.user.Account;
 import com.dyolfan.tradingjournal.services.db.AccountService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("accounts")
+@Validated
 public class AccountController {
     private final AccountService accountService;
 
@@ -16,7 +19,7 @@ public class AccountController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Account> addAccount(@RequestBody Account account) {
+    public ResponseEntity<Account> addAccount(@Valid @RequestBody Account account) {
         return ResponseEntity.ok(accountService.addAccount(account));
     }
 
@@ -26,7 +29,7 @@ public class AccountController {
     }
 
     @PutMapping("/{id}/update")
-    public ResponseEntity<Account> updateAccount(@PathVariable String id, @RequestBody Account account) {
+    public ResponseEntity<Account> updateAccount(@PathVariable String id, @Valid @RequestBody Account account) {
         return ResponseEntity.ok(accountService.updateAccountById(id, account));
     }
 

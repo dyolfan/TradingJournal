@@ -1,5 +1,6 @@
 package com.dyolfan.tradingjournal.data.trade;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,7 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class Ticker {
+    @NotNull
     private Currency main;
+    @NotNull
     private Currency secondary;
 
     @Override

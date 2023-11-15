@@ -1,6 +1,7 @@
 package com.dyolfan.tradingjournal.data.trade;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,8 +13,11 @@ import java.math.BigDecimal;
 @Setter
 @NoArgsConstructor
 public class Outcome {
+    @NotNull
     private Boolean isProfit;
+    @NotNull
     private BigDecimal pnl;
+    @NotNull
     private TradeStatus status;
     @Transient
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

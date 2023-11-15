@@ -1,5 +1,6 @@
 package com.dyolfan.tradingjournal.data.trade;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,8 +16,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Strategy {
     @Id
     private String id;
+    @NotNull
     private String name;
     private String subtype;
     private String description;
+    @NotNull
     private String accountId;
 }
