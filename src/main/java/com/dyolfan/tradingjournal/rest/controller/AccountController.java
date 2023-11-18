@@ -28,6 +28,11 @@ public class AccountController {
         return ResponseEntity.ok(accountService.getAccountById(id));
     }
 
+    @GetMapping("/name")
+    public ResponseEntity<Account> getAccountByName(@RequestParam String accountName) {
+        return ResponseEntity.ok(accountService.getAccountByName(accountName));
+    }
+
     @PutMapping("/{id}/update")
     public ResponseEntity<Account> updateAccount(@PathVariable String id, @Valid @RequestBody Account account) {
         return ResponseEntity.ok(accountService.updateAccountById(id, account));

@@ -144,4 +144,21 @@ public class AccountServiceTest {
         verify(accountRepository, times(0)).deleteById(ACCOUNT_ID);
         assertFalse(result);
     }
+
+    @Test
+    void getAccountByName() {
+        Account account = mock(Account.class);
+        when(accountRepository.findByName(ACCOUNT_NAME)).thenReturn(Optional.of(account));
+
+        Account result = accountService.getAccountByName(ACCOUNT_NAME);
+
+        assertEquals(account, result);
+    }
+
+    @Test
+    void getAccountByNameNotFound() {
+        when(accountRepository.findByName(ACCOUNT_NAME)).thenReturn(Optional.empty());
+
+        assertThrows(NoSuchElementException.class, () -> accountService.getAccountByName(ACCOUNT_NAME));
+    }
 }

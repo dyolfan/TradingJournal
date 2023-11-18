@@ -40,6 +40,10 @@ public class AccountService {
         return accountsRepository.findById(id);
     }
 
+    public Account getAccountByName(String accountName) {
+        return accountsRepository.findByName(accountName).orElseThrow();
+    }
+
     public Account updateAccountById(String id, Account account) {
         return findAccountById(id).map(storedAccount -> {
             storedAccount.setName(account.getName());

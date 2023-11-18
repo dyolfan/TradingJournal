@@ -80,4 +80,18 @@ class IntegrationAccountControllerTest extends BaseIntegrationTest {
         assertTrue((Boolean) responseEntity.getBody());
         assertNull(mongoTemplate.findById(testAccount.getId(), Account.class));
     }
+
+    @Test
+    void getAccountByName() {
+        List<Strategy> strategies = new ArrayList<>();
+        List<Trade> trades = new ArrayList<>();
+        testAccount = createTestAccountWithTrades(trades, strategies);
+
+        ResponseEntity<Account> responseEntity = restTemplate.getForEntity(
+                serverUrl("accounts/name?accountName=" + testAccount.getName()), Account.class);
+
+        assertEquals(HttpStatusCode.valueOf(200), responseEntity.getStatusCode());
+        assertEqualsIgnoring(testAccount, responseEntity.getBody());
+        assertEqualsIgnoring(responseEntity.getBody(), mongoTemplate.findById(testAccount.getId(), Account.class));
+    }
 }
