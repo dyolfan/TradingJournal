@@ -1,6 +1,7 @@
 package com.dyolfan.tradingjournal.rest.controller;
 
 import com.dyolfan.tradingjournal.data.user.Account;
+import com.dyolfan.tradingjournal.rest.response.AccountIdResponse;
 import com.dyolfan.tradingjournal.services.db.AccountService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,11 @@ public class AccountController {
     @GetMapping("/name")
     public ResponseEntity<Account> getAccountByName(@RequestParam String accountName) {
         return ResponseEntity.ok(accountService.getAccountByName(accountName));
+    }
+
+    @GetMapping("/name/id")
+    public ResponseEntity<AccountIdResponse> getAccountIdByName(@RequestParam String accountName) {
+        return ResponseEntity.ok(new AccountIdResponse(accountService.getAccountIdByName(accountName)));
     }
 
     @PutMapping("/{id}/update")

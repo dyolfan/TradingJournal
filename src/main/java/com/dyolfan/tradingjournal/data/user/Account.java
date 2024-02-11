@@ -25,8 +25,10 @@ public class Account {
     @NotNull
     private Currency currency;
     @DBRef
+    @NotNull
     private Trades trades = new Trades();
     @DBRef
+    @NotNull
     private Strategies strategies = new Strategies();
 
     public Account() {
