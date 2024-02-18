@@ -11,6 +11,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class IntegrationStrategyControllerTest extends BaseIntegrationTest {
@@ -62,7 +64,7 @@ class IntegrationStrategyControllerTest extends BaseIntegrationTest {
         Strategy newStrategy = new Strategy();
         newStrategy.setId(savedStrategy.getId());
         newStrategy.setName("Test strat 2");
-        newStrategy.setSubtype("test 2");
+        newStrategy.setTags(List.of("test 2"));
         newStrategy.setDescription("test test 2");
         newStrategy.setAccountId(testAccount.getId());
 

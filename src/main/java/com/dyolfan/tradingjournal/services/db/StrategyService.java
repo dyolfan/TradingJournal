@@ -34,8 +34,8 @@ public class StrategyService {
         return strategyRepository.findById(id).map(storedStrategy -> {
             storedStrategy.setDescription(strategy.getDescription());
             storedStrategy.setName(strategy.getName());
-            storedStrategy.setSubtype(strategy.getSubtype());
-            storedStrategy.setSubtype(strategy.getSubtype());
+            storedStrategy.setTags(strategy.getTags());
+            storedStrategy.setTags(strategy.getTags());
             return storedStrategy;
         }).map(strategyRepository::save).orElseThrow();
     }

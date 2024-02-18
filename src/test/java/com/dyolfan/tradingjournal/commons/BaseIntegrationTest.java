@@ -64,7 +64,7 @@ public class BaseIntegrationTest {
     protected Account createTestAccountWithTrades(List<Trade> trades, List<Strategy> strategies) {
         Account account = createTestAccount();
         Strategy strategy = createTestStrategy(account.getId());
-        Strategy strategy2 = createTestStrategy("test 2", "Test 2", "Win more!", account.getId(), true);
+        Strategy strategy2 = createTestStrategy("test 2", List.of("Test 2"), "Win more!", account.getId(), true);
 
         Trade trade = createTestTrade(account.getId(), strategy);
 
@@ -98,13 +98,13 @@ public class BaseIntegrationTest {
     }
 
     protected Strategy createTestStrategy(String accountId, boolean store) {
-        return createTestStrategy("Test strat", "test", "test test.", accountId, store);
+        return createTestStrategy("Test strat", List.of("test"), "test test.", accountId, store);
     }
 
-    protected Strategy createTestStrategy(String name, String subtype, String description, String accountId, boolean store) {
+    protected Strategy createTestStrategy(String name, List<String> tags, String description, String accountId, boolean store) {
         Strategy strategy = new Strategy();
         strategy.setName(name);
-        strategy.setSubtype(subtype);
+        strategy.setTags(tags);
         strategy.setDescription(description);
         strategy.setAccountId(accountId);
 

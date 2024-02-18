@@ -13,6 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import static com.dyolfan.tradingjournal.data.trade.StrategyTest.sample;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -20,9 +21,6 @@ import static org.mockito.Mockito.*;
 class StrategyServiceTest {
     public static final String ACCOUNT_ID = "1";
     public static final String STRATEGY_ID = "2";
-    private static final String STRATEGY_NAME = "ICT";
-    private static final String STRATEGY_SUBTYPE = "London Sweep";
-    private static final String STRATEGY_DESCRIPTION = "Gain profits";
 
     @InjectMocks
     private StrategyService strategyService;
@@ -69,11 +67,7 @@ class StrategyServiceTest {
 
     @Test
     void updateStrategy() {
-        Strategy strategy = mock(Strategy.class);
-        when(strategy.getName()).thenReturn(STRATEGY_NAME);
-        when(strategy.getSubtype()).thenReturn(STRATEGY_SUBTYPE);
-        when(strategy.getDescription()).thenReturn(STRATEGY_DESCRIPTION);
-
+        Strategy strategy = sample();
         Strategy storedStrategy = new Strategy();
 
         when(strategyRepository.findById(STRATEGY_ID)).thenReturn(Optional.of(storedStrategy));

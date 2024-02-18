@@ -8,6 +8,8 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -18,7 +20,9 @@ public class Strategy {
     private String id;
     @NotNull
     private String name;
-    private String subtype;
+    private List<String> tags;
+    private List<String> steps;
+    private String notes;
     private String description;
     @NotNull
     private String accountId;
